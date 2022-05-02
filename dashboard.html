@@ -1,0 +1,112 @@
+{% extends "base.html" %} {%block title %}Home{%endblock%} {%block content%}
+<h1>Accounts</h1>
+<div>
+    <form method="POST">
+        <div style="display: flex;">
+            <input name="note" id="note" class="form-control" placeholder="Enter the expense">
+            <input name="amt" id="amt" style="width: 200px;" class="form-control" placeholder="Enter the amount">
+            <select name="drop-down" class="form-control" style="width: 150px;">
+                <option value="Misc" disabled selected>Label</option>
+                <option value="Misc">Misc</option>
+                <option value="Cash_in">Cash In</option>
+                <option value="Bill">Bills</option>
+                <option value="Grocery">Grocery</option>
+                <option value="Education">Education</option>
+                <option value="Rent">Rent</option>
+                <option value="Food">Food</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Health">Health</option>
+                <option value="Transportation">Transportation</option>
+                <option value="Staff Salary">Staff Salary</option>
+            </select>
+        </div>
+        <div align="right">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+<div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Sr.No</th>
+                <th scope="col">Expense</th>
+                <th scope="col">Amt</th>
+                <th scope="col">Date</th>
+                <th scope="col">Function</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for note in user.notes %}
+            <tr>
+                <td></td>
+                <td>{{note.data}}</td>
+                {% if note.data_amt == 0 %}
+                <td>{{note.in_take}}</td>
+                {% else %}
+                <td>{{note.data_amt}}</td>
+                {% endif %}
+                <td>{{note.date}}</td>
+                <form action="/delete" method="post">
+                    <td><button type="Submit" class="btn btn-primary">Delete</button></td>
+                    <input type="hidden" value="{{note.id}}" name="note_id">
+                </form>
+            </tr>
+
+            {% endfor %}
+</div>
+<div>
+    <tr>
+        <td></td>
+        <th>Total Spend : </th>
+        <th>{{sum}}</th>
+    </tr>
+    <tr>
+        <td></td>
+        <th>Available Balance for the Month : </th>
+        <th>{{remaining}}</th>
+    </tr>
+</div>
+</tbody>
+</table>
+
+<style>
+    body {
+        counter-reset: Serial;
+        /* Set the Serial counter to 0 */
+    }
+
+    table {
+        border-collapse: separate;
+    }
+
+    input {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+    tr td:first-child:before {
+        counter-increment: Serial;
+        /* Increment the Serial counter */
+        content: counter(Serial);
+        /* Display the counter */
+    }
+
+    .total_class {
+        margin-left: 750px;
+    }
+</style>
+
+<!-- <div id="total">
+    <h3 class="total_class">Total Expenditure {{sum}}</h3>
+</div> -->
+{% endblock %}
